@@ -29,7 +29,7 @@ cd CyberGuard-Malicious-URL-Detection
 terminal 
 pip install -r requirements.txt
 3️⃣ Add Dataset
-The dataset is too large for GitHub. Please download malicious_phish.csv from Kaggle and place it directly in the root directory.
+The dataset is too large for GitHub. Please download malicious_phish.csv from [Kaggle](https://www.kaggle.com/datasets/sid321axn/malicious-urls-dataset) and place it directly in the root directory.
 
 4️⃣ Train the ML Model
 Before running the app, you must generate the model file (approx. 400MB) locally:
