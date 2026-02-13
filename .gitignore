@@ -1,0 +1,10 @@
+# Ignore the large Kaggle dataset
+malicious_phish.csv
+
+# Ignore the heavy trained model files
+model/malicious_url_model.pkl
+
+# Ignore local database and cache
+instance/
+__pycache__/
+*.pyc

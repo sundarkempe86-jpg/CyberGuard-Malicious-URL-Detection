@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto text-center mt-10">
+    <h1 class="text-4xl cyber-font mb-8">URL <span class="neon-text">INTELLIGENCE</span> SCANNER</h1>
+    
+    <div class="glass-panel p-10 rounded-2xl shadow-lg shadow-cyan-500/20">
+        <form method="POST" class="flex flex-col gap-6">
+            <div class="relative">
+                <i class="fas fa-search absolute left-4 top-5 text-gray-500"></i>
+                <input type="text" name="url" required placeholder="Enter URL (e.g. example.com)" 
+                       class="w-full bg-black bg-opacity-50 text-white pl-12 p-4 rounded border border-gray-600 focus:border-cyan-400 focus:outline-none text-lg transition">
+            </div>
+            <button type="submit" class="bg-gradient-to-r from-cyan-700 to-blue-700 text-white font-bold py-4 rounded text-xl hover:scale-105 transition shadow-lg shadow-cyan-500/30 tracking-wider">
+                <i class="fas fa-radar"></i> INITIATE SCAN
+            </button>
+        </form>
+    </div>
+
+    {% if result %}
+    <div class="mt-10 glass-panel p-8 rounded-xl border-t-4 {{ 'border-green-500' if result == 'benign' else 'border-red-600' }} animate-pulse-once">
+        <div class="text-6xl mb-4">
+            {% if result == 'benign' %} 
+                <i class="fas fa-shield-check text-green-400 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]"></i>
+            {% elif result == 'phishing' %}
+                <i class="fas fa-fish text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]"></i>
+            {% elif result == 'malware' %}
+                <i class="fas fa-bug text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]"></i>
+            {% else %}
+                <i class="fas fa-biohazard text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]"></i>
+            {% endif %}
+        </div>
+
+        <h2 class="text-4xl font-bold uppercase tracking-widest cyber-font {{ 'text-green-400' if result == 'benign' else 'text-red-500' }}">
+            {{ result }} DETECTED
+        </h2>
+        <p class="text-gray-400 mt-4 break-all text-lg">Target: <span class="text-white">{{ url }}</span></p>
+        
+        <!-- Reason & Definition Display -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+            <div class="bg-gray-900 bg-opacity-60 p-4 rounded border border-gray-700">
+                <h3 class="text-cyan-400 font-bold mb-1">Analysis Reason</h3>
+                <p class="text-sm text-gray-300">{{ reason }}</p>
+            </div>
+            <div class="bg-gray-900 bg-opacity-60 p-4 rounded border border-gray-700">
+                <h3 class="text-purple-400 font-bold mb-1">Classification Definition</h3>
+                <p class="text-sm text-gray-300">{{ definition }}</p>
+            </div>
+        </div>
+
+        {% if result != 'benign' %}
+        <div class="mt-6 bg-red-900 bg-opacity-40 p-4 rounded text-left border border-red-800">
+            <h3 class="font-bold text-red-300 flex items-center gap-2">
+                <i class="fas fa-exclamation-triangle"></i> THREAT DETECTED
+            </h3>
+            <p class="text-sm text-red-100 mt-1">
+                Do not visit this link or provide any personal information.
+            </p>
+        </div>
+        {% endif %}
+
+        <div class="mt-8 pt-6 border-t border-gray-700">
+            <p class="text-gray-300 mb-4 text-sm uppercase tracking-wide">Help us improve AI accuracy:</p>
+            <div class="flex justify-center gap-6">
+                <a href="{{ url_for('feedback', scan_id=scan_id, feedback_type='Correct') }}" 
+                   class="flex items-center gap-2 px-6 py-3 bg-green-900 bg-opacity-50 hover:bg-green-700 text-green-300 rounded-lg transition border border-green-700">
+                    <i class="fas fa-check-circle"></i> Correct
+                </a>
+                <a href="{{ url_for('feedback', scan_id=scan_id, feedback_type='Incorrect') }}" 
+                   class="flex items-center gap-2 px-6 py-3 bg-red-900 bg-opacity-50 hover:bg-red-700 text-red-300 rounded-lg transition border border-red-700">
+                    <i class="fas fa-times-circle"></i> Incorrect
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

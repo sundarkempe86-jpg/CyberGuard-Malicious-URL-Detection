@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Rajdhani', sans-serif; background-color: #050b14; color: #fff; background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070'); background-size: cover; background-attachment: fixed; background-blend-mode: overlay; }
+        .cyber-font { font-family: 'Orbitron', sans-serif; }
+        .glass-panel { background: rgba(13, 25, 48, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(0, 243, 255, 0.2); box-shadow: 0 0 20px rgba(0, 243, 255, 0.1); }
+        .neon-text { color: #00f3ff; text-shadow: 0 0 8px rgba(0, 243, 255, 0.6); }
+        .nav-item:hover { color: #00f3ff; text-shadow: 0 0 10px #00f3ff; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <nav class="glass-panel sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold cyber-font tracking-widest"><i class="fas fa-shield-alt text-cyan-400"></i> CYBER<span class="text-cyan-400">GUARD</span></a>
+            <div class="space-x-6 font-bold text-lg">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('scan') }}" class="nav-item transition">Scanner</a>
+                    <a href="{{ url_for('scrape') }}" class="nav-item transition">Link Extractor</a>
+                    <a href="{{ url_for('extract_content_route') }}" class="nav-item transition">Content Reader</a>
+                    <a href="{{ url_for('dashboard') }}" class="nav-item transition">Dashboard</a>
+                    <a href="{{ url_for('logout_route') }}" class="text-red-400 hover:text-red-300">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-item transition">Login</a>
+                    <a href="{{ url_for('register') }}" class="bg-cyan-600 px-4 py-2 rounded hover:bg-cyan-500 transition">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <main class="flex-grow container mx-auto px-4 py-8">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="p-4 mb-4 rounded glass-panel border-l-4 {{ 'border-green-500' if category=='success' else 'border-red-500' }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

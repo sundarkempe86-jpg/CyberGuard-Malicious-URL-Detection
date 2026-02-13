@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="glass-panel p-6 rounded-xl border-l-4 border-cyan-500">
+        <h3 class="text-gray-400 uppercase text-xs">Total Scans</h3>
+        <p class="text-4xl font-bold">{{ total }}</p>
+    </div>
+    <div class="glass-panel p-6 rounded-xl border-l-4 border-red-500">
+        <h3 class="text-gray-400 uppercase text-xs">Threats Found</h3>
+        <p class="text-4xl font-bold text-red-400">{{ malicious }}</p>
+    </div>
+    <div class="glass-panel p-6 rounded-xl border-l-4 border-green-500">
+        <h3 class="text-gray-400 uppercase text-xs">Safety Score</h3>
+        <p class="text-4xl font-bold text-green-400">{{ ((1 - (malicious/total)) * 100) | round | int if total > 0 else 100 }}%</p>
+    </div>
+</div>
+
+<div class="glass-panel rounded-xl overflow-hidden">
+    <div class="p-6 border-b border-gray-700"><h2 class="text-2xl font-bold cyber-font">Activity Log</h2></div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-black bg-opacity-30 text-gray-400 uppercase text-xs">
+                <tr>
+                    <th class="p-4">Time</th>
+                    <th class="p-4">URL</th>
+                    <th class="p-4">Result</th>
+                    <th class="p-4">Feedback</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-700">
+                {% for scan in history %}
+                <tr class="hover:bg-white hover:bg-opacity-5">
+                    <td class="p-4 text-sm text-gray-400">{{ scan.timestamp.strftime('%d-%b %H:%M') }}</td>
+                    <td class="p-4 text-sm truncate max-w-xs text-cyan-200" title="{{ scan.url }}">{{ scan.url }}</td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs uppercase font-bold {{ 'bg-green-900 text-green-300' if scan.result == 'benign' else 'bg-red-900 text-red-300' }}">{{ scan.result }}</span></td>
+                    <td class="p-4">
+                        {% if scan.feedback == 'None' %}
+                        <a href="{{ url_for('feedback', scan_id=scan.id, feedback_type='Correct') }}" class="text-green-500 mr-2 hover:text-green-300"><i class="fas fa-check"></i></a>
+                        <a href="{{ url_for('feedback', scan_id=scan.id, feedback_type='Incorrect') }}" class="text-red-500 hover:text-red-300"><i class="fas fa-times"></i></a>
+                        {% else %}
+                        <span class="text-xs text-gray-500">{{ scan.feedback }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
