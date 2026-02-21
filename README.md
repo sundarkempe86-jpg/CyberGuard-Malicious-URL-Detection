@@ -39,7 +39,7 @@ The dataset is too large for GitHub. Please download malicious_phish.csv from [K
 Before running the app, you must generate the model file (approx. 400MB) locally, 
 
 terminal:
-python train_advanced.py
+python train_advanced.py ,
 This will create malicious_url_model.pkl inside the model/ directory.
 
 5️⃣ Run the Application
