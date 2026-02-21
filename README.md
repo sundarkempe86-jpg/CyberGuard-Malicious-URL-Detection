@@ -4,6 +4,8 @@ CyberGuard 2.0 is a powerful machine-learning web application designed to detect
 
 The system goes beyond blacklist-based methods and detects Zero-Day malicious links using lexical analysis and heuristics.
 
+[🚀 Access the Live Demo Here](https://huggingface.co/spaces/sundarkempe-dev/CyberGuard-Detection)
+
 🚀 Features
 * 🔍 **Intelligent URL Scanning**: Real-time classification using a trained Random Forest Classifier with 96% precision for malware URLs.
 * 🧠 **Continuous Learning**: User feedback stored and used for re-training (Active Learning Loop).
